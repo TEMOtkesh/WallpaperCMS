@@ -29,5 +29,5 @@ if (ini_get('session.use_cookies')) {
 session_destroy();
 
 // Redirect to login page with a confirmation message
-header('Location: login.php?msg=You+have+been+logged+out.');
+header('Location: login.php?error=You+have+been+logged+out.');
 exit;

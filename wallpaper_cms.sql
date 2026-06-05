@@ -86,7 +86,7 @@ CREATE TABLE contacts (
 
 -- Default admin account  (password: admin123)
 INSERT INTO users (name, email, password, role) VALUES
-('Admin', 'admin@wallpaper.cms', '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('Admin', 'admin@wallpaper.cms', '$2y$10$P/wMEXID1YNLCX.B/FiIheDtA5fD.555pMaDe58DoRpf/s2NmsfN6', 'admin');
 
 -- Default categories
 INSERT INTO categories (name) VALUES
