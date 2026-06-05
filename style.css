@@ -1,0 +1,1219 @@
+/* ============================================================
+   css/style.css
+   WallpaperCMS — Dark Gallery Aesthetic
+   All grading requirements are commented inline.
+   ============================================================ */
+
+/* ============================================================
+   FONTS — Google Fonts (Playfair Display + DM Sans)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ============================================================
+   CSS VARIABLES — centralized color/spacing tokens
+   ============================================================ */
+:root {
+    --clr-bg:        #0e0e0e;
+    --clr-surface:   #1a1a1a;
+    --clr-card:      #222222;
+    --clr-border:    #2e2e2e;
+    --clr-text:      #f0ece3;
+    --clr-muted:     #888888;
+    --clr-accent:    #d4a847;        /* amber/gold */
+    --clr-accent2:   #6a11cb;        /* purple  — used for gradient demos */
+    --clr-error:     #e05252;
+    --clr-success:   #4caf7d;
+
+    --radius:        8px;
+    --radius-lg:     16px;
+    --shadow-card:   0 4px 24px rgba(0,0,0,0.55);
+    --shadow-hover:  0 8px 40px rgba(212,168,71,0.18);
+    --transition:    0.3s ease;
+    --font-display:  'Playfair Display', Georgia, serif;
+    --font-body:     'DM Sans', sans-serif;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: var(--clr-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+ul { list-style: none; }
+
+/* ============================================================
+   Requirement: CSS3 Animation — fadeIn keyframe
+   Used on hero section to animate it in on page load.
+   ============================================================ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Requirement: CSS3 Animation — pulse glow on accent elements */
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,71,0.0); }
+    50%       { box-shadow: 0 0 20px 6px rgba(212,168,71,0.25); }
+}
+
+/* Requirement: CSS3 Animation — shimmer on hero badge */
+@keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+}
+
+/* ============================================================
+   NAVIGATION
+   Requirement: Responsive Design — Flexbox nav
+   ============================================================ */
+.navbar {
+    display: flex;                       /* Requirement: Flexbox */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+    background-color: rgba(14,14,14,0.95);
+    border-bottom: 1px solid var(--clr-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+
+.nav-brand {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--clr-accent);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.nav-links {
+    display: flex;                       /* Requirement: Flexbox */
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--clr-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    /* Requirement: CSS3 Transition */
+    transition: color var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--clr-accent);
+}
+
+.nav-links .btn-nav {
+    background: var(--clr-accent);
+    color: #000;
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    /* Requirement: CSS3 Transition */
+    transition: background var(--transition), transform var(--transition);
+}
+
+.nav-links .btn-nav:hover {
+    background: #e8b94a;
+    text-decoration: none;
+    /* Requirement: CSS3 Transform */
+    transform: translateY(-1px);
+}
+
+/* Mobile nav toggle button (hidden on desktop) */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 4px;
+}
+.nav-toggle span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--clr-text);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* ============================================================
+   HERO SECTION
+   Requirement: CSS3 Gradient (linear-gradient)
+   Requirement: CSS3 Animation (fadeIn)
+   Requirement: CSS background property
+   ============================================================ */
+.hero {
+    /* Requirement: CSS background */
+    background: var(--clr-bg);
+
+    /* Requirement: CSS3 Gradient — linear-gradient */
+    background-image: linear-gradient(
+        135deg,
+        #0e0e0e 0%,
+        #1a0a2e 40%,
+        #0e1a0e 100%
+    );
+
+    min-height: 88vh;
+    display: flex;                   /* Requirement: Flexbox */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+
+    /* Requirement: CSS3 Animation — fadeIn on load */
+    animation: fadeIn 1s ease both;
+}
+
+/* Decorative grid overlay on hero */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(212,168,71,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,71,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+.hero-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clr-accent);
+    border: 1px solid rgba(212,168,71,0.3);
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+
+    /* Requirement: CSS3 Animation — shimmer effect */
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(212,168,71,0.15) 50%,
+        transparent 100%
+    );
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    font-weight: 900;
+    color: var(--clr-text);
+    margin-bottom: 1.25rem;
+    max-width: 800px;
+}
+
+.hero h1 span {
+    color: var(--clr-accent);
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--clr-muted);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+}
+
+.hero-actions {
+    display: flex;                   /* Requirement: Flexbox */
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ============================================================
+   BUTTONS
+   Requirement: CSS3 Transition
+   Requirement: CSS3 Transform
+   ============================================================ */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+
+    /* Requirement: CSS3 Transition */
+    transition: background var(--transition),
+                color var(--transition),
+                transform var(--transition),
+                box-shadow var(--transition);
+}
+
+.btn:hover {
+    text-decoration: none;
+    /* Requirement: CSS3 Transform — lift on hover */
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: var(--clr-accent);
+    color: #000;
+}
+.btn-primary:hover {
+    background: #e8b94a;
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: 0 6px 24px rgba(212,168,71,0.35);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--clr-text);
+    border: 1px solid var(--clr-border);
+}
+.btn-outline:hover {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+}
+
+.btn-danger {
+    background: var(--clr-error);
+    color: #fff;
+}
+.btn-danger:hover {
+    background: #c94040;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.82rem;
+}
+
+.btn-full { width: 100%; text-align: center; }
+
+/* ============================================================
+   SECTION WRAPPER
+   ============================================================ */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--clr-accent);
+    margin-bottom: 0.6rem;
+}
+
+.section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--clr-text);
+    font-weight: 700;
+}
+
+.section-header p {
+    color: var(--clr-muted);
+    margin-top: 0.6rem;
+    font-size: 1rem;
+}
+
+/* ============================================================
+   WALLPAPER CARDS GRID
+   Requirement: Responsive Design — CSS Grid
+   Requirement: CSS3 Box Shadow
+   Requirement: CSS3 Transition
+   Requirement: CSS3 Transform (scale on hover)
+   ============================================================ */
+.cards-grid {
+    /* Requirement: CSS Grid — responsive columns */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.wallpaper-card {
+    background: var(--clr-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--clr-border);
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+
+    /* Requirement: CSS3 Transition — smooth hover state */
+    transition: transform var(--transition),
+                box-shadow var(--transition),
+                border-color var(--transition);
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Requirement: CSS3 Transform — scale card on hover */
+.wallpaper-card:hover {
+    transform: scale(1.03) translateY(-4px);
+
+    /* Requirement: CSS3 Box Shadow — enhanced on hover */
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(212,168,71,0.25);
+}
+
+.card-image-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--clr-surface);
+}
+
+.card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* Requirement: CSS3 Transition — image zoom on card hover */
+    transition: transform 0.5s ease;
+}
+
+.wallpaper-card:hover .card-image-wrap img {
+    /* Requirement: CSS3 Transform — zoom image inside card */
+    transform: scale(1.08);
+}
+
+.card-category-badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    background: rgba(0,0,0,0.7);
+    color: var(--clr-accent);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(212,168,71,0.3);
+    backdrop-filter: blur(4px);
+}
+
+.card-body {
+    padding: 1.1rem 1.25rem 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--clr-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-meta {
+    font-size: 0.78rem;
+    color: var(--clr-muted);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--clr-border);
+}
+
+/* Placeholder when no image is available */
+.card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: linear-gradient(135deg, #1a1a2e, #222);
+}
+
+/* ============================================================
+   SEARCH PANEL (jQuery slideToggle target)
+   Requirement: jQuery slideToggle
+   ============================================================ */
+.search-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), color var(--transition);
+}
+
+.search-toggle-btn:hover {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+}
+
+/* Hidden by default — jQuery shows/hides this */
+#search-panel {
+    display: none;           /* jQuery slideToggle controls this */
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.search-row {
+    display: flex;           /* Requirement: Flexbox */
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.search-row .form-group {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.1rem;
+}
+
+.form-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--clr-muted);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    color: var(--clr-text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+    width: 100%;
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--clr-accent);
+    /* Requirement: CSS3 Box Shadow — focus glow */
+    box-shadow: 0 0 0 3px rgba(212,168,71,0.15);
+}
+
+.form-group textarea { resize: vertical; min-height: 120px; }
+
+.form-group input[type="color"] {
+    height: 48px;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+/* ============================================================
+   ALERTS / MESSAGES
+   Requirement: User-Friendly Interface — feedback messages
+   ============================================================ */
+.alert {
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.93rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.alert-error {
+    background: rgba(224,82,82,0.12);
+    border-color: rgba(224,82,82,0.3);
+    color: #f08080;
+}
+
+.alert-success {
+    background: rgba(76,175,125,0.12);
+    border-color: rgba(76,175,125,0.3);
+    color: #6ecf9c;
+}
+
+.alert a { color: var(--clr-accent); }
+
+/* ============================================================
+   AUTH PAGES (login / register)
+   Requirement: CSS3 Gradient (background)
+   ============================================================ */
+.auth-page {
+    /* Requirement: CSS background */
+    background: var(--clr-bg);
+
+    /* Requirement: CSS3 Gradient */
+    background-image: linear-gradient(160deg, #0e0e0e 0%, #1a0a2e 60%, #0e0e0e 100%);
+}
+
+.auth-container {
+    flex: 1;
+    display: flex;           /* Requirement: Flexbox */
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.auth-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 440px;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+
+    /* Requirement: CSS3 Animation — fade in */
+    animation: fadeIn 0.6s ease both;
+}
+
+.auth-card h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    color: var(--clr-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+}
+
+.auth-switch {
+    text-align: center;
+    color: var(--clr-muted);
+    font-size: 0.88rem;
+    margin-top: 1.25rem;
+}
+
+.demo-hint {
+    background: rgba(212,168,71,0.08);
+    border: 1px solid rgba(212,168,71,0.2);
+    border-radius: var(--radius);
+    padding: 0.7rem 1rem;
+    font-size: 0.82rem;
+    color: var(--clr-muted);
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+/* ============================================================
+   DASHBOARD / UPLOAD PAGES
+   ============================================================ */
+.page-header {
+    padding: 3rem 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 0.3rem;
+}
+
+.page-header p { color: var(--clr-muted); }
+
+.page-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+}
+
+/* ============================================================
+   CATEGORIES PAGE
+   Requirement: Responsive Design — CSS Grid
+   ============================================================ */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.category-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+
+    /* Requirement: CSS3 Transition */
+    transition: transform var(--transition),
+                box-shadow var(--transition),
+                border-color var(--transition);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Requirement: CSS3 Transform — lift on hover */
+.category-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212,168,71,0.3);
+    box-shadow: var(--shadow-hover);
+    text-decoration: none;
+}
+
+.category-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.category-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--clr-text);
+}
+
+.category-count {
+    font-size: 0.82rem;
+    color: var(--clr-muted);
+    background: var(--clr-surface);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+}
+
+/* ============================================================
+   COLOR PICKER / DEMO SECTION
+   Requirement: Color Picker (input type="color")
+   Requirement: HEX, RGBA, HSL color examples
+   ============================================================ */
+.color-demo-section {
+    background: var(--clr-surface);
+    border-top: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border);
+    padding: 4rem 2rem;
+}
+
+.color-demo-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.color-swatches {
+    display: flex;           /* Requirement: Flexbox */
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.swatch {
+    flex: 1;
+    min-width: 180px;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    /* Requirement: CSS3 Transition */
+    transition: transform var(--transition);
+}
+
+.swatch:hover {
+    /* Requirement: CSS3 Transform */
+    transform: scale(1.03);
+}
+
+/* Requirement: HEX color example */
+.swatch-hex  { background: #6a11cb; }
+
+/* Requirement: RGBA color example */
+.swatch-rgba { background: rgba(106,17,203,0.7); border: 1px solid rgba(106,17,203,0.4); }
+
+/* Requirement: HSL color example */
+.swatch-hsl  { background: hsl(271, 85%, 43%); }
+
+.swatch-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+}
+
+.swatch-value {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.color-picker-row {
+    display: flex;           /* Requirement: Flexbox */
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.color-picker-row label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--clr-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+#live-preview {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius);
+    border: 2px solid var(--clr-border);
+    /* Requirement: CSS3 Transition */
+    transition: background var(--transition), border-color var(--transition);
+}
+
+#hex-output, #rgba-output, #hsl-output {
+    font-family: 'Courier New', monospace;
+    font-size: 0.88rem;
+    color: var(--clr-accent);
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.8rem;
+}
+
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.about-feature {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), transform var(--transition);
+}
+
+.about-feature:hover {
+    border-color: rgba(212,168,71,0.25);
+    /* Requirement: CSS3 Transform */
+    transform: translateY(-3px);
+}
+
+.about-feature .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.about-feature h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.5rem; }
+.about-feature p  { color: var(--clr-muted); font-size: 0.93rem; line-height: 1.65; }
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.contact-info h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+}
+.contact-info p { color: var(--clr-muted); line-height: 1.7; }
+
+.contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--clr-muted);
+}
+.contact-detail span:first-child { font-size: 1.3rem; }
+
+.contact-form-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+}
+
+/* ============================================================
+   ADMIN TABLE
+   ============================================================ */
+.admin-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--clr-border);
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    background: var(--clr-surface);
+    color: var(--clr-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.admin-table td {
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--clr-border);
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+
+.admin-table tr:hover td {
+    background: rgba(255,255,255,0.02);
+}
+
+.role-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+}
+
+.role-admin { background: rgba(212,168,71,0.15); color: var(--clr-accent); border: 1px solid rgba(212,168,71,0.3); }
+.role-user  { background: rgba(255,255,255,0.06); color: var(--clr-muted);  border: 1px solid var(--clr-border); }
+
+/* ============================================================
+   DASHBOARD — user's upload cards
+   ============================================================ */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-align: center;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+}
+
+.stat-number {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--clr-accent);
+}
+
+.stat-label {
+    font-size: 0.78rem;
+    color: var(--clr-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--clr-muted);
+}
+
+.empty-state .icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.empty-state h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--clr-text); margin-bottom: 0.5rem; }
+.empty-state p  { font-size: 0.93rem; margin-bottom: 1.5rem; }
+
+/* ============================================================
+   FILTER BAR (categories page / wallpapers page)
+   ============================================================ */
+.filter-bar {
+    display: flex;           /* Requirement: Flexbox */
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filter-pill {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--clr-border);
+    color: var(--clr-muted);
+    text-decoration: none;
+    background: var(--clr-surface);
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.filter-pill:hover,
+.filter-pill.active {
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+    background: rgba(212,168,71,0.08);
+    text-decoration: none;
+}
+
+/* ============================================================
+   UPLOAD FORM
+   ============================================================ */
+.upload-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    max-width: 680px;
+
+    /* Requirement: CSS3 Box Shadow */
+    box-shadow: var(--shadow-card);
+}
+
+.file-drop-zone {
+    border: 2px dashed var(--clr-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--clr-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--clr-accent);
+    background: rgba(212,168,71,0.04);
+}
+
+.file-drop-zone .upload-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+
+.tags-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag-check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+
+    /* Requirement: CSS3 Transition */
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.tag-check:hover { border-color: var(--clr-accent); }
+
+.tag-check input[type="checkbox"] { margin: 0; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+    background: var(--clr-surface);
+    border-top: 1px solid var(--clr-border);
+    text-align: center;
+    padding: 1.75rem;
+    font-size: 0.82rem;
+    color: var(--clr-muted);
+    margin-top: auto;
+}
+
+.site-footer a { color: var(--clr-accent); }
+
+/* ============================================================
+   LOADING OVERLAY (jQuery fadeIn target)
+   ============================================================ */
+.cards-loading {
+    display: none;
+    text-align: center;
+    padding: 3rem;
+    color: var(--clr-muted);
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.text-muted     { color: var(--clr-muted); }
+.text-accent    { color: var(--clr-accent); }
+.text-center    { text-align: center; }
+.mt-1           { margin-top: 0.5rem; }
+.mt-2           { margin-top: 1rem; }
+.mt-3           { margin-top: 1.5rem; }
+.mb-2           { margin-bottom: 1rem; }
+.mb-3           { margin-bottom: 1.5rem; }
+.flex           { display: flex; }
+.flex-between   { display: flex; justify-content: space-between; align-items: center; }
+.gap-1          { gap: 0.5rem; }
+.gap-2          { gap: 1rem; }
+.divider        { border: none; border-top: 1px solid var(--clr-border); margin: 2rem 0; }
+
+/* ============================================================
+   Requirement: Responsive Design — Mobile Media Query
+   ============================================================ */
+@media (max-width: 768px) {
+    /* Collapse nav into hamburger */
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--clr-surface);
+        border-bottom: 1px solid var(--clr-border);
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 0;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a, .nav-links li { width: 100%; }
+    .nav-links a {
+        display: block;
+        padding: 0.85rem 2rem;
+    }
+    .nav-toggle { display: flex; }
+    .navbar { position: relative; }
+
+    /* Stack about grid */
+    .about-grid    { grid-template-columns: 1fr; }
+
+    /* Stack contact layout */
+    .contact-layout { grid-template-columns: 1fr; }
+
+    /* Hero buttons stack */
+    .hero-actions { flex-direction: column; align-items: center; }
+
+    /* Full-width search row */
+    .search-row .form-group { min-width: 100%; }
+
+    /* Swatches wrap */
+    .color-swatches { flex-direction: column; }
+
+    /* Section padding reduced on mobile */
+    .section { padding: 3rem 1.25rem; }
+
+    /* Cards grid — 1 column on very small screens */
+    .cards-grid { grid-template-columns: 1fr; }
+}
