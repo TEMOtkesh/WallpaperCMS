@@ -4,13 +4,15 @@ require_once __DIR__ . '/Database.php';
 class Wallpaper
 {
     private PDO $pdo;
-    private string $uploadDir = 'uploads/';
+    private string $uploadDir;
     private array $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     private int $maxSize = 10485760;
 
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
+        // Absolute path so file operations work regardless of working directory
+        $this->uploadDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
     }
 
     public function createWallpaper(array $data, array $file, array $tagIds = []): bool|string
@@ -121,8 +123,9 @@ class Wallpaper
             if (is_string($uploadResult)) {
                 return $uploadResult;
             }
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+            $absPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $imagePath;
+            if (file_exists($absPath)) {
+                unlink($absPath);
             }
             $imagePath = $uploadResult;
         }
@@ -155,8 +158,9 @@ class Wallpaper
             return false;
         }
 
-        if (!empty($wallpaper['image_path']) && file_exists($wallpaper['image_path'])) {
-            unlink($wallpaper['image_path']);
+        $absPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $wallpaper['image_path'];
+        if (!empty($wallpaper['image_path']) && file_exists($absPath)) {
+            unlink($absPath);
         }
 
         $stmt = $this->pdo->prepare(
@@ -247,7 +251,8 @@ class Wallpaper
             return 'Could not save the uploaded file. Check folder permissions.';
         }
 
-        return $destPath;
+        // Store as a relative URL path (forward slashes) for use in img src
+        return 'uploads/' . $filename;
     }
 
     private function syncTags(int $wallpaperId, array $tagIds): void

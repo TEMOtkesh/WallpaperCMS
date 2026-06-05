@@ -130,7 +130,7 @@ $activePage = 'dashboard';
 
             <div class="form-group">
                 <label>Replace Image (optional)</label>
-                <?php if (!empty($wallpaper['image_path']) && file_exists($wallpaper['image_path'])): ?>
+                <?php if (!empty($wallpaper['image_path']) && file_exists(__DIR__ . '/' . $wallpaper['image_path'])): ?>
                     <img src="<?= htmlspecialchars($wallpaper['image_path']) ?>"
                          alt="Current image"
                          style="max-height:180px; border-radius:var(--radius); margin-bottom:0.75rem;

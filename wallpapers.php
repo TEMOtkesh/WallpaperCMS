@@ -155,7 +155,7 @@ $activePage = 'wallpapers';
                 <!-- Requirement: jQuery fadeIn() applied to each .wallpaper-card in script.js -->
                 <div class="wallpaper-card">
                     <div class="card-image-wrap">
-                        <?php if (!empty($wp['image_path']) && file_exists($wp['image_path'])): ?>
+                        <?php if (!empty($wp['image_path']) && file_exists(__DIR__ . '/' . $wp['image_path'])): ?>
                             <img
                                 src="<?= htmlspecialchars($wp['image_path']) ?>"
                                 alt="<?= htmlspecialchars($wp['title']) ?>"
