@@ -28,7 +28,7 @@ $(document).ready(function () {
     // ============================================================
     $('.wallpaper-card').each(function (index) {
         const $card = $(this);
-        $card.css('opacity', 0); // ensure starts hidden
+        $card.hide(); // hide via display:none so fadeIn works correctly
 
         // Stagger each card by 80ms
         setTimeout(function () {
@@ -42,7 +42,7 @@ $(document).ready(function () {
     // ============================================================
     $('.category-card').each(function (index) {
         const $card = $(this);
-        $card.css('opacity', 0);
+        $card.hide();
         setTimeout(function () {
             $card.fadeIn(350);
         }, index * 100);
