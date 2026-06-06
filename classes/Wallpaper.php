@@ -18,8 +18,9 @@ class Wallpaper
     public function createWallpaper(array $data, array $file, array $tagIds = []): bool|string
     {
         $uploadResult = $this->handleUpload($file);
-        if (is_string($uploadResult)) {
-            return $uploadResult;
+        // handleUpload returns 'uploads/filename.ext' on success, or an error message on failure
+        if (!str_starts_with($uploadResult, 'uploads/')) {
+            return $uploadResult; // it's an error message
         }
         $imagePath = $uploadResult;
 
@@ -120,7 +121,7 @@ class Wallpaper
 
         if (!empty($file['name'])) {
             $uploadResult = $this->handleUpload($file);
-            if (is_string($uploadResult)) {
+            if (!str_starts_with($uploadResult, 'uploads/')) {
                 return $uploadResult;
             }
             $absPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $imagePath;
